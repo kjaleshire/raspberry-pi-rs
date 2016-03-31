@@ -6,12 +6,12 @@ build_dir := build/arch/$(arch)
 target_dir := target/$(arm_rust_triple)
 
 kernel_image := $(build_dir)/kernel7.img
-rust_object := target/$(arm_rust_triple)/debug/libblinker03.a
+rust_object := target/$(arm_rust_triple)/release/libblinker04.a
 linker_file := src/arch/$(arch)/linker.ld
 assembly_source_files := $(wildcard src/arch/armv7/*.asm)
 assembly_object_files := $(patsubst src/arch/armv7/%.asm, $(build_dir)/%.o, $(assembly_source_files))
-elf_outfile := $(build_dir)/blinker03.elf
-hex_outfile := $(build_dir)/blinker03.hex
+elf_outfile := $(build_dir)/blinker04.elf
+hex_outfile := $(build_dir)/blinker04.hex
 
 all: $(hex_outfile) $(kernel_image)
 
@@ -28,7 +28,7 @@ $(rust_object): src/lib.rs
 
 $(elf_outfile): $(rust_object) $(assembly_object_files) $(linker_file)
 	$(arm_gnu_triple)-ld $(assembly_object_files) $(rust_object) -T $(linker_file) -o $(elf_outfile)
-	$(arm_gnu_triple)-objdump -D $(elf_outfile) > $(build_dir)/blinker03.list
+	$(arm_gnu_triple)-objdump -D $(elf_outfile) > $(build_dir)/blinker04.list
 
 $(kernel_image): $(elf_outfile)
 	$(arm_gnu_triple)-objcopy $(elf_outfile) -O binary $(kernel_image)

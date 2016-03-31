@@ -16,7 +16,7 @@ const TIMEOUT: u32 = 400_000;
 
 #[no_mangle]
 pub extern fn rust_main() {
-    // Set the counter scalar to 0x49. System clock freq (~250MHz) / 0x3E = ~1 million ticks/sec
+    // Set the counter scalar to 0xF9. System clock freq (~250MHz) / 0xF9 = ~1 million ticks/sec
     write_gpio_register(ARM_TIMER_CTL, 0x00F9_0200);
 
     let mut gpfsel2_val = read_gpio_register(GPFSEL2);
