@@ -16,3 +16,6 @@ Cargo.lock
 
 # Custom build directory
 */build/
+
+# Hopper files
+*/*.hop
