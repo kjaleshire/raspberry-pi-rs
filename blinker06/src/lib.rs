@@ -30,7 +30,6 @@ extern {
     fn enable_irq();
 }
 
-#[naked]
 #[no_mangle]
 pub extern fn rust_main() {
     gpio::write_register(ARM_TIMER_LOD, SHORT_TIMEOUT - 1);
@@ -58,7 +57,6 @@ pub extern fn rust_main() {
     loop {}
 }
 
-#[naked]
 #[no_mangle]
 pub extern fn rust_irq_handler() {
     let state_counter = unsafe { volatile_load::<u32>(&STATE_COUNTER as *const u32 as *mut u32) };
@@ -73,7 +71,7 @@ pub extern fn rust_irq_handler() {
 
     unsafe {
         volatile_store(&STATE_COUNTER as *const u32 as *mut u32, state_counter.wrapping_add(1));
-    };
+    }
 
     gpio::write_register(ARM_TIMER_CLI, 0);
 }
