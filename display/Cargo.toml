@@ -1,0 +1,18 @@
+[package]
+name = "display"
+version = "0.0.1"
+authors = ["Kyle Aleshire <kjaleshire@gmail.com>"]
+
+[lib]
+crate-type = ["staticlib"]
+
+[profile.release]
+panic = "abort"
+
+[dependencies]
+metalpi = { git = "https://github.com/kjaleshire/metal-pi.git" }
+# metalpi = { path = "../../metal-pi" }
+
+[dependencies.lazy_static]
+version = "0.2.9"
+features = ["spin_no_std"]

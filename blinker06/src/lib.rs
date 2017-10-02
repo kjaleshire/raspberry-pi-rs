@@ -1,4 +1,4 @@
-#![feature(asm, core_intrinsics, lang_items, naked_functions)]
+#![feature(core_intrinsics, lang_items)]
 #![no_std]
 
 mod gpio;
