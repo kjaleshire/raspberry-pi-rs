@@ -10,9 +10,9 @@ mod watchdog;
 use metalpi::gpio as gpio_n;
 use core::intrinsics::{volatile_store, volatile_load};
 
-const SHORT_TIMEOUT: u32 = 500_000;
+const SHORT_TIMEOUT: usize = 500_000;
 
-static mut STATE_COUNTER: u32 = 0;
+static mut STATE_COUNTER: usize = 0;
 
 extern {
     fn enable_irq();
@@ -47,7 +47,7 @@ pub extern fn rust_main() {
 
 #[no_mangle]
 pub extern fn rust_irq_handler() {
-    let state_counter = unsafe { volatile_load::<u32>(&STATE_COUNTER as *const u32 as *mut u32) };
+    let state_counter = unsafe { volatile_load::<usize>(&STATE_COUNTER as *const usize as *mut usize) };
 
     if state_counter & 0x1 == 0 {
         gpio_n::set_pin(20);
@@ -58,7 +58,7 @@ pub extern fn rust_irq_handler() {
     }
 
     unsafe {
-        volatile_store(&STATE_COUNTER as *const u32 as *mut u32, state_counter.wrapping_add(1));
+        volatile_store(&STATE_COUNTER as *const usize as *mut usize, state_counter.wrapping_add(1));
     }
 
     gpio::ARM_TIMER_CLI.write(0);

@@ -1,13 +1,13 @@
 use core::intrinsics::{volatile_store, volatile_load};
 
-const GPIO_BASE: u32 = 0x3F00_0000;
+const GPIO_BASE: usize = 0x3F00_0000;
 
 pub struct GpioRegister {
-    address: u32
+    address: usize
 }
 
 impl GpioRegister {
-    pub const fn new(address: u32) -> Self {
+    pub const fn new(address: usize) -> Self {
         // if !(address & GPIO_BASE == GPIO_BASE) {
         //     panic!("Address does not lie within periphal memory space");
         // }
@@ -15,15 +15,15 @@ impl GpioRegister {
         Self{address: address}
     }
 
-    pub fn write(&self, value: u32) {
+    pub fn write(&self, value: usize) {
         unsafe {
-            volatile_store::<u32>(self.address as *mut u32, value);
+            volatile_store::<usize>(self.address as *mut usize, value);
         }
     }
 
-    pub fn read(&self) -> u32 {
+    pub fn read(&self) -> usize {
         unsafe {
-            volatile_load::<u32>(self.address as *mut u32)
+            volatile_load::<usize>(self.address as *mut usize)
         }
     }
 }
